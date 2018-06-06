@@ -1,0 +1,32 @@
+{
+  "name": "drink-slot",
+  "version": "1.0.0",
+  "description": "A slot game but for drink-shops",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaihg/kaihg.github.io.git"
+  },
+  "keywords": [
+    "slot",
+    "drink"
+  ],
+  "author": "Kaihg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaihg/kaihg.github.io/issues"
+  },
+  "homepage": "https://github.com/kaihg/kaihg.github.io#readme",
+  "dependencies": {
+    "pixi.js": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/pixi.js": "^4.7.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "typescript": "^2.9.1"
+  }
+}
