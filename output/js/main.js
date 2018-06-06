@@ -8,6 +8,55 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var App;
+(function (App) {
+    var Constants = /** @class */ (function () {
+        function Constants() {
+        }
+        Constants.SYMBOL_WIDTH = 100;
+        Constants.SYMBOL_HEIGHT = 100;
+        return Constants;
+    }());
+    App.Constants = Constants;
+})(App || (App = {}));
+var App;
+(function (App) {
+    var Main = /** @class */ (function () {
+        function Main() {
+            this.initPIXI();
+            this.startLoading();
+        }
+        Main.prototype.initPIXI = function () {
+            this.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
+            document.body.appendChild(this.app.view);
+        };
+        Main.prototype.startLoading = function () {
+            var _this = this;
+            var loadingView = new view.LoadingView();
+            loadingView.x = this.app.screen.width / 2;
+            loadingView.y = this.app.screen.height / 2;
+            this.app.stage.addChild(loadingView);
+            PIXI.loader
+                .on("progress", function (loader, resource) { loadingView.updateProgress(loader.progress); })
+                .add("shops", "resource/shops.json")
+                .load(function () {
+                _this.onLoaded();
+            });
+        };
+        Main.prototype.onLoaded = function () {
+            this.initReelView(PIXI.loader.resources.shops.data);
+        };
+        Main.prototype.initReelView = function (shops) {
+            console.log(shops);
+            var reel = new view.ReelView();
+            reel.x = this.app.screen.width / 2;
+            reel.y = this.app.screen.height / 2;
+            this.app.stage.addChild(reel);
+        };
+        return Main;
+    }());
+    App.Main = Main;
+})(App || (App = {}));
 var view;
 (function (view) {
     var LoadingView = /** @class */ (function (_super) {
@@ -23,39 +72,30 @@ var view;
             this.progress = percent;
             this.clear();
             this.lineStyle(10, this.color);
-            this.drawCircle(0, 0, 2 * Math.PI * percent);
+            // this.drawCircle(0, 0, 2 * Math.PI * percent);
+            this.arc(0, 0, 50, 0, 2 * Math.PI * percent);
             this.endFill();
         };
         return LoadingView;
     }(PIXI.Graphics));
     view.LoadingView = LoadingView;
 })(view || (view = {}));
-var App;
-(function (App) {
-    var Main = /** @class */ (function () {
-        function Main() {
-            this.initPIXI();
-            this.startLoading();
+var view;
+(function (view) {
+    var ReelView = /** @class */ (function (_super) {
+        __extends(ReelView, _super);
+        function ReelView() {
+            var _this = _super.call(this) || this;
+            var width = App.Constants.SYMBOL_WIDTH;
+            var height = App.Constants.SYMBOL_HEIGHT;
+            _this.frame = new PIXI.Graphics();
+            _this.frame.lineStyle(10, 0x000000);
+            _this.frame.drawRect(-width * 0.5, -height * 0.5, width, height);
+            _this.frame.endFill();
+            _this.addChild(_this.frame);
+            return _this;
         }
-        Main.prototype.initPIXI = function () {
-            this.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
-            document.body.appendChild(this.app.view);
-        };
-        Main.prototype.startLoading = function () {
-            var _this = this;
-            var loadingView = new view.LoadingView();
-            this.app.stage.addChild(loadingView);
-            PIXI.loader
-                .on("progress", function (loader, resource) { loadingView.updateProgress(loader.progress); })
-                .add("shops", "resource/shops.json")
-                .load(function () {
-                _this.onLoaded();
-            });
-        };
-        Main.prototype.onLoaded = function () {
-            console.log("load done");
-        };
-        return Main;
-    }());
-    App.Main = Main;
-})(App || (App = {}));
+        return ReelView;
+    }(PIXI.Sprite));
+    view.ReelView = ReelView;
+})(view || (view = {}));
