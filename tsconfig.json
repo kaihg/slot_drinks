@@ -3,7 +3,7 @@
         // "noUnusedLocals": true,
         // "noUnusedParameters": true,
         "outDir": "./public",
-        "outFile":"./public/js/slogames.js",
+        "outFile":"./public/js/main.js",
         "module":"es6",
         "allowJs": true,
         "target": "es5",

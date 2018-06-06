@@ -1,7 +1,4 @@
-import { LoadingView } from "./LoadingView";
-
 export class Main {
-
 
     private app: PIXI.Application;
 
@@ -18,7 +15,7 @@ export class Main {
     }
 
     startLoading(): any {
-        let loadingView = new LoadingView();
+        let loadingView = new view.LoadingView();
         this.app.stage.addChild(loadingView);
 
         PIXI.loader
