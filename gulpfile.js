@@ -6,17 +6,17 @@
 var gulp = require('gulp'),
 //     gutil = require('gulp-util'),
 //     jshint = require('gulp-jshint');
-// sourcemaps = require('gulp-sourcemaps');
-// concat = require('gulp-concat');
+sourcemaps = require('gulp-sourcemaps');
+concat = require('gulp-concat');
 // uglify = require('gulp-uglify');
 // order = require('gulp-order');
 // streamqueue = require('streamqueue');
 // header = require('gulp-header');
-// connect = require('gulp-connect');
+connect = require('gulp-connect');
 ts = require('gulp-typescript');
 tsProject = ts.createProject("tsconfig.json");
 // runSequence = require('run-sequence');
-// open = require('gulp-open');
+open = require('gulp-open');
 // inject = require('gulp-inject');
 // jsonfile = require('jsonfile');
 // var gnf = require('gulp-npm-files');
@@ -64,7 +64,7 @@ var packageJSON = require('./package');
 
 gulp.task('webserver', function () {
     connect.server({
-        root: ["./public"],
+        root: ["."],
         host: "0.0.0.0",
         livereload: true,
         port: "5566"
@@ -78,15 +78,15 @@ gulp.task('ts', function () {
             "./src/**/*.ts"
         ])
 
-            // .pipe(sourcemaps.init())
+            .pipe(sourcemaps.init())
             .pipe(ts({
                 outFile: 'main.js',
                 allowJs: true
             }))
             .js
-            // .pipe(sourcemaps.write())
+            .pipe(sourcemaps.write())
             .pipe(gulp.dest("./output/js"))
-            // .pipe(connect.reload());
+            .pipe(connect.reload());
 
     return moveTS;
 })
@@ -139,9 +139,10 @@ gulp.task('only_build', function () {
     return runSequence(['ts', 'copyLibs', 'copyRes'], 'injectJS2', 'compile_res');
 })
 
-gulp.task('default', function () {
-    return runSequence(['ts', 'copyLibs', 'copyRes'], 'injectJS', ['watch', 'webserver', 'open']);
-})
+// gulp.task('default', function () {
+//     return runSequence(['ts', 'copyLibs', 'copyRes'], 'injectJS', ['watch', 'webserver', 'open']);
+// })
+gulp.task('default', ['ts','watch','webserver','open'])
 
 gulp.task('clean', function () {
     gulp.src('./public', { read: false }).pipe(clean());

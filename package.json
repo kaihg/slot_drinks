@@ -21,12 +21,17 @@
   },
   "homepage": "https://github.com/kaihg/kaihg.github.io#readme",
   "dependencies": {
+    "gsap": "^2.0.1",
     "pixi.js": "^4.8.0"
   },
   "devDependencies": {
+    "@types/gsap": "^1.19.2",
     "@types/pixi.js": "^4.7.2",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-open": "^3.0.1",
+    "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
     "typescript": "^2.9.1"
   }
