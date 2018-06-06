@@ -30,3 +30,32 @@ var view;
     }(PIXI.Graphics));
     view.LoadingView = LoadingView;
 })(view || (view = {}));
+var App;
+(function (App) {
+    var Main = /** @class */ (function () {
+        function Main() {
+            this.initPIXI();
+            this.startLoading();
+        }
+        Main.prototype.initPIXI = function () {
+            this.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
+            document.body.appendChild(this.app.view);
+        };
+        Main.prototype.startLoading = function () {
+            var _this = this;
+            var loadingView = new view.LoadingView();
+            this.app.stage.addChild(loadingView);
+            PIXI.loader
+                .on("progress", function (loader, resource) { loadingView.updateProgress(loader.progress); })
+                .add("shops", "resource/shops.json")
+                .load(function () {
+                _this.onLoaded();
+            });
+        };
+        Main.prototype.onLoaded = function () {
+            console.log("load done");
+        };
+        return Main;
+    }());
+    App.Main = Main;
+})(App || (App = {}));

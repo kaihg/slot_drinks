@@ -16,12 +16,7 @@
 
     "include": [
         "node_modules/jdbpuremvc/puremvc.d.ts",
-        "node_modules/pixi-spine/bin/pixi-spine.d.ts",
-        "node_modules/jdbsmartfox/smart-fox-server.d.ts",
-        "node_modules/pixi-projection/dist/pixi-projection.d.ts",
         "./src/**/*.ts",
         "./test/**/*.ts"
-    ],
-
-    "supportLangs":["en","tw","cn"]
+    ]
 }
