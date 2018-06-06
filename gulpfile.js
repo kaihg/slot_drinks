@@ -85,7 +85,7 @@ gulp.task('ts', function () {
             }))
             .js
             // .pipe(sourcemaps.write())
-            .pipe(gulp.dest("./public/js"))
+            .pipe(gulp.dest("./output/js"))
             // .pipe(connect.reload());
 
     return moveTS;
