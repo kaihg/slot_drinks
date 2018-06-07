@@ -71,6 +71,8 @@ module App {
         onLoaded() {
             this.initReelView(PIXI.loader.resources.shops.data);
             this.initSpinButton();
+            this.initKeyboardEvent();
+
             this.onResize();
 
             
@@ -81,6 +83,7 @@ module App {
             let reel = new view.ReelView(shops.normal);
 
             let text1 = new PIXI.Text("普通")
+            // text1.resolution = devicePixelRatio;
             text1.anchor.set(0.5);
             text1.y = -75;
             reel.addChild(text1);
@@ -142,6 +145,14 @@ module App {
 
         }
 
+        initKeyboardEvent(){
+            let space = this.keyboard(32);
+            space.press = this.spin.bind(this);
+
+            let enter = this.keyboard(13);
+            enter.press = this.spin.bind(this);
+        }
+
         changeOutlineFilter(obj: { var: number }, filter) {
             let index = Math.round(obj.var) % 2;
 
@@ -153,5 +164,42 @@ module App {
                 this.goodReelView.filters = filter;
             }
         }
+
+        keyboard(keyCode) {
+            let key :any = {};
+            key.code = keyCode;
+            key.isDown = false;
+            key.isUp = true;
+            key.press = undefined;
+            key.release = undefined;
+            //The `downHandler`
+            key.downHandler = event => {
+              if (event.keyCode === key.code) {
+                if (key.isUp && key.press) key.press();
+                key.isDown = true;
+                key.isUp = false;
+              }
+              event.preventDefault();
+            };
+          
+            //The `upHandler`
+            key.upHandler = event => {
+              if (event.keyCode === key.code) {
+                if (key.isDown && key.release) key.release();
+                key.isDown = false;
+                key.isUp = true;
+              }
+              event.preventDefault();
+            };
+          
+            //Attach event listeners
+            window.addEventListener(
+              "keydown", key.downHandler.bind(key), false
+            );
+            window.addEventListener(
+              "keyup", key.upHandler.bind(key), false
+            );
+            return key;
+          }
     }
 }
