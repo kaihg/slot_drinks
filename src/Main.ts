@@ -16,7 +16,8 @@ module App {
         }
 
         private initPIXI() {
-            this.app = new PIXI.Application(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, { backgroundColor: 0x1099bb });
+            // this.app = new PIXI.Application(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, { backgroundColor: 0x1099bb });
+            this.app = new PIXI.Application(window.innerWidth , window.innerHeight , { backgroundColor: 0x1099bb, autoResize:true });
             this.app.view.style.width = "100%";
             this.app.view.style.height = "100%";
 
@@ -27,7 +28,8 @@ module App {
         }
 
         onResize() {
-            this.app.renderer.resize(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio);
+            // this.app.renderer.resize(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio);
+            this.app.renderer.resize(window.innerWidth , window.innerHeight );
 
             if (this.app.screen.width < 2.5 * App.Constants.SYMBOL_WIDTH) {
                 // 切直
@@ -70,6 +72,8 @@ module App {
             this.initReelView(PIXI.loader.resources.shops.data);
             this.initSpinButton();
             this.onResize();
+
+            
         }
 
         initReelView(shops: vo.ShopsVO) {
