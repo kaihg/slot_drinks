@@ -7,17 +7,15 @@ module view {
 
         frameColor = 0xffffff;
         bgColor = 0x0011ff;
+        bgColorOnClick = 0x33aaaa;
 
         label: PIXI.Text;
         private bgView: PIXI.Graphics;
 
-        _buttonWidth: number;
-        _buttonHeight: number;
+        private _buttonWidth: number;
+        private _buttonHeight: number;
 
-        private effectSec = 0.5;
         private effect: PIXI.Sprite;
-
-        private currentTween: TweenLite;
 
         constructor(text = "Button") {
             super();
@@ -41,6 +39,8 @@ module view {
             this.buttonMode = true;
             this.on("pointerover", this.onButtonOver);
             this.on("pointerout", this.onButtonOut);
+            this.on("pointerdown",()=>{this.effect.tint = this.bgColorOnClick});
+            this.on("pointerup",()=>{this.effect.tint = this.frameColor});
         }
 
         drawNormalSytle() {
