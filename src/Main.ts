@@ -78,6 +78,15 @@ module App {
 
             this.app.stage.addChild(btn);
 
+
+            let testBtn = new view.Button();
+            testBtn.buttonWidth = App.Constants.SYMBOL_WIDTH;
+            testBtn.buttonHeight = 75;
+            // testBtn.redraw();
+
+            testBtn.x = this.reelView.x;
+            testBtn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT *2;
+            this.app.stage.addChild(testBtn);
         }
 
         spin() {
