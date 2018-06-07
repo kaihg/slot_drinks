@@ -49,7 +49,10 @@ module view {
                 return;
             }
             this.spining = true;
-            TweenMax.fromTo(this.wheel.position, 0.2, { y: 0 }, { y: App.Constants.SYMBOL_HEIGHT, repeat: 10, ease: Linear.easeNone, onRepeat: this.swapId, onRepeatScope: this, onComplete: this.onSpinComplete, onCompleteScope: this });
+
+            let dampingStartSec = 0.5;
+            TweenMax.to(this.wheel.position, dampingStartSec, { y: -40, yoyo: true, repeat: 1 });
+            TweenMax.fromTo(this.wheel.position, 0.2, { y: 0 }, { delay: dampingStartSec * 2, y: App.Constants.SYMBOL_HEIGHT, repeat: 10, ease: Linear.easeNone, onRepeat: this.swapId, onRepeatScope: this, onComplete: this.onSpinComplete, onCompleteScope: this });
 
         }
 
@@ -69,7 +72,7 @@ module view {
             this.tempIds.unshift(this.randomId());
             this.updateShop(this.tempIds);
 
-            TweenLite.fromTo(this.wheel.position, 1, { y: -App.Constants.SYMBOL_HEIGHT }, { y: 0, ease:Back.easeOut });
+            TweenLite.fromTo(this.wheel.position, 1, { y: -App.Constants.SYMBOL_HEIGHT }, { y: 0, ease: Back.easeOut });
         }
     }
 }
