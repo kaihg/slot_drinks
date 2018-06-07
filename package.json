@@ -22,6 +22,7 @@
   "homepage": "https://github.com/kaihg/kaihg.github.io#readme",
   "dependencies": {
     "gsap": "^2.0.1",
+    "pixi-filters": "^2.6.1",
     "pixi.js": "^4.8.0"
   },
   "devDependencies": {

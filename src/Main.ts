@@ -6,6 +6,7 @@ module App {
         private reelView: view.ReelView;
         private goodReelView: view.ReelView;
         private spinBtn: PIXI.DisplayObject;
+        filter: PIXI.Filter[];
 
         constructor() {
 
@@ -15,7 +16,10 @@ module App {
         }
 
         private initPIXI() {
-            this.app = new PIXI.Application(window.innerWidth, window.innerHeight, { backgroundColor: 0x1099bb });
+            this.app = new PIXI.Application(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, { backgroundColor: 0x1099bb });
+            this.app.view.style.width = "100%";
+            this.app.view.style.height = "100%";
+
             document.body.appendChild(this.app.view);
             if (window.addEventListener) {
                 window.addEventListener("resize", this.onResize.bind(this), true);
@@ -23,9 +27,9 @@ module App {
         }
 
         onResize() {
-            this.app.renderer.resize(window.innerWidth, window.innerHeight);
+            this.app.renderer.resize(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio);
 
-            if (window.innerWidth < 2.5 * App.Constants.SYMBOL_WIDTH) {
+            if (this.app.screen.width < 2.5 * App.Constants.SYMBOL_WIDTH) {
                 // 切直
                 this.reelView.x = this.app.screen.width / 2;
                 this.reelView.y = this.app.screen.height / 2 - 200;
@@ -78,9 +82,7 @@ module App {
             reel.addChild(text1);
 
             this.app.stage.addChild(reel);
-
             this.reelView = reel;
-
 
             // 老闆的
             let reel2 = new view.ReelView(shops.good);
@@ -90,7 +92,6 @@ module App {
             reel2.addChild(text2);
 
             this.app.stage.addChild(reel2);
-
             this.goodReelView = reel2;
         }
 
@@ -124,8 +125,29 @@ module App {
         spin() {
             this.reelView.onSpin();
             this.goodReelView.onSpin();
+
+            this.reelView.filters = null;
+            this.goodReelView.filters = null;
+
+            // let outlineFilter = [this.filter || new PIXI.filters.OutlineFilter(5, 0xff0000)];
+            let outlineFilter = this.filter || [new PIXI.filters.GlowFilter(15)];
+            this.filter = outlineFilter;
+
+            let obj = { var: 0 };
+            TweenLite.to(obj, 5, { var: Math.random() * 2 + 15, onUpdate: this.changeOutlineFilter, onUpdateParams: [obj, outlineFilter], onUpdateScope: this, ease: Quad.easeInOut });
+
         }
 
+        changeOutlineFilter(obj: { var: number }, filter) {
+            let index = Math.round(obj.var) % 2;
 
+            if (index) {
+                this.reelView.filters = filter;
+                this.goodReelView.filters = null;
+            } else {
+                this.reelView.filters = null;
+                this.goodReelView.filters = filter;
+            }
+        }
     }
 }

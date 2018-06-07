@@ -15,6 +15,7 @@
     },
 
     "include": [
+        "./node_modules/pixi-filters/types.d.ts",
         "./src/Constants.ts",
         "./src/**/*.ts",
         "./test/**/*.ts"
