@@ -1,12 +1,9 @@
 module view {
 
-    export enum HoverType {
-        type1
-    }
-
     export class Button extends PIXI.Sprite {
 
-        hoverType: HoverType;
+        hoverType: HoverType = HoverType.type1;
+
 
         frameColor = 0xffffff;
         bgColor = 0x0011ff;
@@ -98,21 +95,15 @@ module view {
             this.effect.visible = true;
             this.effect.tint = this.frameColor;
 
-            if (this.currentTween) {
-                this.currentTween.pause();
-            }
-            this.currentTween = TweenLite.to(this.effect,  this.effectSec, { alpha: 1 });
+
+            ButtonHoverEffect.onHover(this.hoverType,this.effect,true);
 
             this.label.style.fill = this.bgColor;
         }
 
         onButtonOut() {
-            if (this.currentTween) {
-                this.currentTween.pause();
-            }
-            let tweenObj = this.effect;
-            this.currentTween = TweenLite.to(tweenObj, this.effectSec, { alpha: 0 ,onComplete:()=>{tweenObj.visible = false}});
-
+            
+            ButtonHoverEffect.onHover(this.hoverType,this.effect,false);
 
             this.label.style.fill = this.frameColor;
         }

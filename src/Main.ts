@@ -65,10 +65,12 @@ module App {
         }
 
         initSpinButton() {
-            let btn = new PIXI.Text("開始");
+            let btn = new view.Button("開始");
             btn.anchor.set(0.5);
             btn.x = this.reelView.x;
             btn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT;
+            btn.buttonWidth = App.Constants.SYMBOL_WIDTH;
+            btn.buttonHeight = 55;
             // btn.x = this.app.screen.width - 64;
             // btn.y = this.app.screen.height - 48;
             btn.interactive = true;
@@ -79,14 +81,14 @@ module App {
             this.app.stage.addChild(btn);
 
 
-            let testBtn = new view.Button();
-            testBtn.buttonWidth = App.Constants.SYMBOL_WIDTH;
-            testBtn.buttonHeight = 75;
-            // testBtn.redraw();
+            // let testBtn = new view.Button();
+            // testBtn.buttonWidth = App.Constants.SYMBOL_WIDTH;
+            // testBtn.buttonHeight = 75;
+            // // testBtn.redraw();
 
-            testBtn.x = this.reelView.x;
-            testBtn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT *2;
-            this.app.stage.addChild(testBtn);
+            // testBtn.x = this.reelView.x;
+            // testBtn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT *2;
+            // this.app.stage.addChild(testBtn);
         }
 
         spin() {
