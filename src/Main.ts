@@ -4,6 +4,7 @@ module App {
         private app: PIXI.Application;
 
         private reelView: view.ReelView;
+        private spinBtn: PIXI.DisplayObject;
 
         constructor() {
 
@@ -15,6 +16,19 @@ module App {
         private initPIXI() {
             this.app = new PIXI.Application(window.innerWidth, window.innerHeight, { backgroundColor: 0x1099bb });
             document.body.appendChild(this.app.view);
+            if (window.addEventListener) {
+                window.addEventListener("resize", this.onResize.bind(this), true);
+            }
+        }
+
+        onResize() {
+            this.app.renderer.resize(window.innerWidth, window.innerHeight);
+
+            this.reelView.x = this.app.screen.width / 2;
+            this.reelView.y = this.app.screen.height / 2;
+
+            this.spinBtn.x = this.reelView.x;
+            this.spinBtn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT;
         }
 
         startLoading(): any {
@@ -54,11 +68,13 @@ module App {
             let btn = new PIXI.Text("開始");
             btn.anchor.set(0.5);
             btn.x = this.reelView.x;
-            btn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT ;
+            btn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT;
             // btn.x = this.app.screen.width - 64;
             // btn.y = this.app.screen.height - 48;
             btn.interactive = true;
             btn.on('pointerup', this.spin.bind(this));
+
+            this.spinBtn = btn;
 
             this.app.stage.addChild(btn);
 
