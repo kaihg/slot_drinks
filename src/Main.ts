@@ -6,7 +6,7 @@ module App {
         private reelView: view.ReelView;
         private goodReelView: view.ReelView;
         private spinBtn: PIXI.DisplayObject;
-        filter: PIXI.Filter[];
+        filter: any[];
 
         constructor() {
 
@@ -16,8 +16,11 @@ module App {
         }
 
         private initPIXI() {
-            // this.app = new PIXI.Application(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, { backgroundColor: 0x1099bb });
+            // PIXI.settings.PRECISION_FRAGMENT = "highp"
+            // this.app = new PIXI.Application(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, { backgroundColor: 0x1099bb, autoResize:true});
             this.app = new PIXI.Application(window.innerWidth , window.innerHeight , { backgroundColor: 0x1099bb, autoResize:true });
+
+            console.log(devicePixelRatio,window.devicePixelRatio)
             this.app.view.style.width = "100%";
             this.app.view.style.height = "100%";
 
@@ -79,11 +82,34 @@ module App {
         }
 
         initReelView(shops: vo.ShopsVO) {
-            console.log(shops);
+            // PIXI.settings.RESOLUTION = devicePixelRatio;
+            // console.log(shops);
+            let style = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 36,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['#ffffff', '#00ff99'], // gradient
+                stroke: '#4a1850',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+                wordWrap: true,
+                wordWrapWidth: 440
+            });
+
+
             let reel = new view.ReelView(shops.normal);
 
-            let text1 = new PIXI.Text("普通")
+            let text1 = new PIXI.Text("普通",style)
+            
             // text1.resolution = devicePixelRatio;
+            text1.dirty = true;
+
+            console.log(`text resolution = ${text1.resolution}, but window is ${devicePixelRatio}, setting is ${PIXI.settings.RESOLUTION}`)
             text1.anchor.set(0.5);
             text1.y = -75;
             reel.addChild(text1);
@@ -93,7 +119,7 @@ module App {
 
             // 老闆的
             let reel2 = new view.ReelView(shops.good);
-            let text2 = new PIXI.Text("爽")
+            let text2 = new PIXI.Text("爽",style)
             text2.anchor.set(0.5);
             text2.y = -75;
             reel2.addChild(text2);
@@ -138,11 +164,14 @@ module App {
 
             // let outlineFilter = [this.filter || new PIXI.filters.OutlineFilter(5, 0xff0000)];
             let outlineFilter = this.filter || [new PIXI.filters.GlowFilter(15)];
+            // let outlineFilter = this.filter || [new PIXI.filters.TwistFilter(15)];
             this.filter = outlineFilter;
 
             let obj = { var: 0 };
             TweenLite.to(obj, 5, { var: Math.random() * 2 + 15, onUpdate: this.changeOutlineFilter, onUpdateParams: [obj, outlineFilter], onUpdateScope: this, ease: Quad.easeInOut });
 
+
+            // this.app.stage.filters = [new PIXI.filters.TwistFilter(500,4)];
         }
 
         initKeyboardEvent(){
