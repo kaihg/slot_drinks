@@ -25,12 +25,12 @@ module view {
             }
         }
 
-        setIds(ids:number[]){
-            this.children.forEach((child : PIXI.Container , i)=>{
+        setIds(ids: number[]) {
+            this.children.forEach((child: PIXI.Container, i) => {
                 let textView = child.getChildAt(1) as PIXI.Text;
                 textView.text = this.shops[ids[i]];
             })
         }
-        
+
     }
 }

@@ -5,7 +5,7 @@ module view {
         private wheel: view.WheelView;
         private shops: string[];
 
-        private tempIds: number[] = [1, 1, 1];
+        private tempIds: number[] = [0, 1, 2];
         spining: boolean;
         // private _mask: PIXI.DisplayObject;
 
@@ -37,6 +37,7 @@ module view {
 
             this.addChild(wheel, mask, this.frame);
 
+            this.updateShop(this.tempIds);
         }
 
         updateShop(shopId: number[]) {
@@ -48,7 +49,7 @@ module view {
                 return;
             }
             this.spining = true;
-            TweenMax.fromTo(this.wheel.position, 0.5, { y: 0 }, { y: App.Constants.SYMBOL_HEIGHT, repeat: 5, ease: Linear.easeNone, onRepeat: this.swapId, onRepeatScope: this, onComplete: this.onSpinComplete, onCompleteScope: this });
+            TweenMax.fromTo(this.wheel.position, 0.2, { y: 0 }, { y: App.Constants.SYMBOL_HEIGHT, repeat: 10, ease: Linear.easeNone, onRepeat: this.swapId, onRepeatScope: this, onComplete: this.onSpinComplete, onCompleteScope: this });
 
         }
 
@@ -68,7 +69,7 @@ module view {
             this.tempIds.unshift(this.randomId());
             this.updateShop(this.tempIds);
 
-            TweenLite.fromTo(this.wheel.position, 1, { y: -App.Constants.SYMBOL_HEIGHT }, { y: 0 });
+            TweenLite.fromTo(this.wheel.position, 1, { y: -App.Constants.SYMBOL_HEIGHT }, { y: 0, ease:Back.easeOut });
         }
     }
 }
