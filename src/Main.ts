@@ -4,6 +4,7 @@ module App {
         private app: PIXI.Application;
 
         private reelView: view.ReelView;
+        private goodReelView: view.ReelView;
         private spinBtn: PIXI.DisplayObject;
 
         constructor() {
@@ -24,11 +25,24 @@ module App {
         onResize() {
             this.app.renderer.resize(window.innerWidth, window.innerHeight);
 
-            this.reelView.x = this.app.screen.width / 2;
-            this.reelView.y = this.app.screen.height / 2;
+            if (window.innerWidth < 2.5 * App.Constants.SYMBOL_WIDTH) {
+                // 切直
+                this.reelView.x = this.app.screen.width / 2;
+                this.reelView.y = this.app.screen.height / 2 - 200;
 
-            this.spinBtn.x = this.reelView.x;
-            this.spinBtn.y = this.reelView.y + App.Constants.SYMBOL_HEIGHT;
+                this.goodReelView.x = this.app.screen.width / 2;
+                this.goodReelView.y = this.app.screen.height / 2;
+            } else {
+                // 切橫
+                this.reelView.x = this.app.screen.width / 2 - 125;
+                this.reelView.y = this.app.screen.height / 2;
+
+                this.goodReelView.x = this.app.screen.width / 2 + 125;
+                this.goodReelView.y = this.app.screen.height / 2;
+            }
+
+            this.spinBtn.x = this.app.screen.width / 2;
+            this.spinBtn.y = this.goodReelView.y + App.Constants.SYMBOL_HEIGHT;
         }
 
         startLoading(): any {
@@ -51,17 +65,33 @@ module App {
         onLoaded() {
             this.initReelView(PIXI.loader.resources.shops.data);
             this.initSpinButton();
+            this.onResize();
         }
 
-        initReelView(shops: string[]) {
+        initReelView(shops: vo.ShopsVO) {
             console.log(shops);
-            let reel = new view.ReelView(shops);
-            reel.x = this.app.screen.width / 2;
-            reel.y = this.app.screen.height / 2;
+            let reel = new view.ReelView(shops.normal);
+
+            let text1 = new PIXI.Text("普通")
+            text1.anchor.set(0.5);
+            text1.y = -75;
+            reel.addChild(text1);
 
             this.app.stage.addChild(reel);
 
             this.reelView = reel;
+
+
+            // 老闆的
+            let reel2 = new view.ReelView(shops.good);
+            let text2 = new PIXI.Text("爽")
+            text2.anchor.set(0.5);
+            text2.y = -75;
+            reel2.addChild(text2);
+
+            this.app.stage.addChild(reel2);
+
+            this.goodReelView = reel2;
         }
 
         initSpinButton() {
@@ -93,6 +123,7 @@ module App {
 
         spin() {
             this.reelView.onSpin();
+            this.goodReelView.onSpin();
         }
 
 
