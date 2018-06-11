@@ -16,13 +16,12 @@ module App {
         }
 
         private initPIXI() {
-            // PIXI.settings.PRECISION_FRAGMENT = "highp"
-            // this.app = new PIXI.Application(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio, { backgroundColor: 0x1099bb, autoResize:true});
-            this.app = new PIXI.Application(window.innerWidth , window.innerHeight , { backgroundColor: 0x1099bb, autoResize:true });
-
-            console.log(devicePixelRatio,window.devicePixelRatio)
-            this.app.view.style.width = "100%";
-            this.app.view.style.height = "100%";
+            // this.app = new PIXI.Application(window.innerWidth , window.innerHeight , { backgroundColor: 0x1099bb, autoResize:true ,resolution:devicePixelRatio});
+            // this.app.view.style.width = `100%`;
+            // this.app.view.style.height = `100%`;
+            this.app = new PIXI.Application(window.innerWidth , window.innerHeight , { backgroundColor: 0x1099bb, autoResize:true ,resolution:devicePixelRatio});
+            this.app.view.style.width = `${window.innerWidth}px`;
+            this.app.view.style.height = `${window.innerHeight}px`;
 
             document.body.appendChild(this.app.view);
             if (window.addEventListener) {
@@ -31,16 +30,17 @@ module App {
         }
 
         onResize() {
-            // this.app.renderer.resize(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio);
             this.app.renderer.resize(window.innerWidth , window.innerHeight );
+            this.app.view.style.width = `${window.innerWidth}px`;
+            this.app.view.style.height = `${window.innerHeight}px`;
 
             if (this.app.screen.width < 2.5 * App.Constants.SYMBOL_WIDTH) {
                 // 切直
                 this.reelView.x = this.app.screen.width / 2;
-                this.reelView.y = this.app.screen.height / 2 - 200;
+                this.reelView.y = this.app.screen.height / 2 - 100;
 
                 this.goodReelView.x = this.app.screen.width / 2;
-                this.goodReelView.y = this.app.screen.height / 2;
+                this.goodReelView.y = this.app.screen.height / 2+100;
             } else {
                 // 切橫
                 this.reelView.x = this.app.screen.width / 2 - 125;
@@ -82,7 +82,7 @@ module App {
         }
 
         initReelView(shops: vo.ShopsVO) {
-            // PIXI.settings.RESOLUTION = devicePixelRatio;
+            PIXI.settings.RESOLUTION = devicePixelRatio;
             // console.log(shops);
             let style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
