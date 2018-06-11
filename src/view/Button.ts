@@ -39,8 +39,8 @@ module view {
             this.buttonMode = true;
             this.on("pointerover", this.onButtonOver);
             this.on("pointerout", this.onButtonOut);
-            this.on("pointerdown",()=>{this.effect.tint = this.bgColorOnClick});
-            this.on("pointerup",()=>{this.effect.tint = this.frameColor});
+            this.on("pointerdown", () => { this.effect.tint = this.bgColorOnClick });
+            this.on("pointerup", () => { this.effect.tint = this.frameColor });
         }
 
         drawNormalSytle() {
@@ -96,14 +96,14 @@ module view {
             this.effect.tint = this.frameColor;
 
 
-            ButtonHoverEffect.onHover(this.hoverType,this.effect,true);
+            ButtonHoverEffect.onHover(this.hoverType, this.effect, true);
 
             this.label.style.fill = this.bgColor;
         }
 
         onButtonOut() {
-            
-            ButtonHoverEffect.onHover(this.hoverType,this.effect,false);
+
+            ButtonHoverEffect.onHover(this.hoverType, this.effect, false);
 
             this.label.style.fill = this.frameColor;
         }
